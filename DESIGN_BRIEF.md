@@ -15,7 +15,7 @@ The audience would be students who are in search for an internship or co-op duri
 
 ## Key Screens
 
-There are five screen designs for this app:
+There are four screen designs for this app:
 
 **1 - Landing Page:**
 App name, one-line catch phrase, "try it now" button
