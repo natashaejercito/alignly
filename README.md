@@ -1,1 +1,1 @@
-Alignly is a career alignment tool for interns and co-op students in tech. Instead of applying to jobs "just for experience", users define their goals, program, and target roles then Alignlyanalyzes any job posting against their profile and gives feedback such as is it the right fit. The goal is to turn disconnected career path into intentional ones, benefiting both interns and the employers who will hire them.
+## ALIGNLY 
