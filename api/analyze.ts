@@ -3,12 +3,14 @@ import { AnalyzeError, analyze, RequestSchema } from "../server/analyze";
 import { checkRateLimit, clientIp } from "../server/rateLimit";
 
 /**
- * A real analysis takes ~14s (Opus with adaptive thinking on a judgment task),
- * which blows past Vercel's 10s default and would time out in production while
- * working fine locally. 60s is the Hobby ceiling.
+ * Timeout note: a real analysis takes 12-14s (Opus with adaptive thinking on a
+ * judgment task), which blows past Vercel's 10s default and would time out in
+ * production while working fine locally.
+ *
+ * The 60s override lives in vercel.json, NOT here — an `export const maxDuration`
+ * in this file is silently ignored on a Vite project (verified: it never reached
+ * the built .vc-config.json). Change it there.
  */
-export const maxDuration = 60;
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
