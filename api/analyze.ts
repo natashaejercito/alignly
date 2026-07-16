@@ -1,6 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { AnalyzeError, analyze, RequestSchema } from "../server/analyze";
-import { checkRateLimit, clientIp } from "../server/rateLimit";
+// The .js extensions are required, not stylistic: package.json sets "type": "module",
+// so this compiles to ESM, and Node's ESM loader rejects extensionless relative
+// imports at runtime. tsx and Vite tolerate them locally, so dropping these fails
+// only in production, as ERR_MODULE_NOT_FOUND.
+import { AnalyzeError, analyze, RequestSchema } from "../server/analyze.js";
+import { checkRateLimit, clientIp } from "../server/rateLimit.js";
 
 /**
  * Timeout note: a real analysis takes 12-14s (Opus with adaptive thinking on a

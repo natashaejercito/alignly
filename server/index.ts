@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
-import { AnalyzeError, analyze, RequestSchema } from "./analyze";
-import { checkRateLimit, clientIp } from "./rateLimit";
+import { AnalyzeError, analyze, RequestSchema } from "./analyze.js";
+import { checkRateLimit, clientIp } from "./rateLimit.js";
 
 /**
  * Local dev server. In production this route is served by api/analyze.ts as a
