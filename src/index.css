@@ -65,11 +65,156 @@ textarea:focus-visible {
   }
 }
 
+/* --- Hero chat bubbles -------------------------------------------------- */
+
+@keyframes bubblePop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.hero {
+  position: relative;
+}
+
+/* Its own layer, so bubbles never push the headline around.
+   The -48px reach past the hero is a clearance margin, not decoration: the
+   headline is capped at 15ch, and 15ch of Newsreader at 78px can be wide enough
+   that a bubble flush to the hero edge would sit on the text. This guarantees a
+   gap in the worst case while still keeping the bubbles close. It also stays
+   inside the viewport down to the 1023px breakpoint. */
+.bubble-field {
+  position: absolute;
+  inset: 0 -48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero > *:not(.bubble-field) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Drawn in CSS rather than using the PNG exports, so the bubble hugs its text
+   instead of stretching one fixed-width image. Values are sampled from the
+   Figma art: fill #f6e0b6, border #997b75, 8px radius with one square corner
+   for the tail — so it renders identically, but at any width. */
+.bubble {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  /* Scales with viewport so the bubble stays proportionate to the headline,
+     which is itself clamped. */
+  padding: clamp(7px, 0.8vw, 10px) clamp(12px, 1.5vw, 18px);
+  background: #f6e0b6;
+  border: 1px solid #997b75;
+  font-size: clamp(11px, 1.05vw, 12.5px);
+  font-weight: 500;
+  line-height: 1;
+  color: #3d1534;
+  white-space: nowrap;
+  opacity: 0;
+  animation: bubblePop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* The square corner is the tail. Order: top-left, top-right, bottom-right,
+   bottom-left. A bubble sitting left of the headline points right, so the
+   tail is the opposite of the side it sits on. */
+.bubble--points-left {
+  border-radius: 8px 8px 8px 0;
+}
+
+.bubble--points-right {
+  border-radius: 8px 8px 0 8px;
+}
+
+/* Desktop only. Narrower than this there is no margin beside the headline to
+   float in, and the bubbles are decoration — they should not cost layout or
+   legibility on smaller screens. */
+@media (max-width: 1023px) {
+  .bubble-field {
+    display: none;
+  }
+}
+
+/* --- Sample verdict card (landing) -------------------------------------- */
+
+/* Grid rather than flex-wrap: with wrapping, the token and the quote are one
+   column and drop below the ring together. Here the ring spans both rows, so
+   the token stays beside it and only the quote reflows. */
+.verdict-peek {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "ring token"
+    "ring quote";
+  align-items: center;
+  column-gap: clamp(18px, 3vw, 34px);
+  row-gap: 11px;
+}
+
+.verdict-peek__ring {
+  grid-area: ring;
+  position: relative;
+  /* Scales down on small screens so it never crowds the token beside it. */
+  width: clamp(96px, 24vw, 132px);
+  aspect-ratio: 1;
+}
+
+.verdict-peek__ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The ring is taller than the token + quote stack, so grid hands the leftover
+   height to both rows and would drift them apart. Pinning the token to the
+   bottom of its row and the quote to the top keeps them paired, with the extra
+   space falling outside — which is what the flex version used to do. */
+.verdict-peek__token {
+  grid-area: token;
+  justify-self: start;
+  align-self: end;
+}
+
+.verdict-peek__quote {
+  grid-area: quote;
+  align-self: start;
+}
+
+/* Below this the quote has no useful width beside the ring, so it moves under
+   the pair. The token stays on the ring's row rather than dropping with it. */
+@media (max-width: 560px) {
+  .verdict-peek {
+    grid-template-areas:
+      "ring token"
+      "quote quote";
+    row-gap: 16px;
+  }
+
+  /* Now that the token shares a row with the ring rather than sitting above the
+     quote, centre it against the ring instead of pinning it low. */
+  .verdict-peek__token {
+    align-self: center;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* The stagger is the whole effect, so with motion reduced the bubbles simply
+     start visible instead of animating in. */
+  .bubble {
+    opacity: 1;
   }
 }

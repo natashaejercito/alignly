@@ -188,7 +188,7 @@ export function App() {
             borderTop: `1px solid ${hairline}00`,
           }}
         >
-          <span style={{ fontFamily: serif, fontWeight: 500 }}>Alignly</span> &nbsp;·&nbsp; Built by
+          <span style={{ fontFamily: serif, fontWeight: 500 }}>Alignly</span> 2026 &nbsp;·&nbsp; Built by
           Nat
         </footer>
       </div>

@@ -5,6 +5,9 @@ import { existsSync } from "node:fs";
  * when it is missing — the page just deploys with the flat cream fallback. This
  * turns that silent gap into a visible warning at build time.
  */
+// The bubble PNGs are intentionally absent from this list — the bubbles are now
+// drawn in CSS (see .bubble in index.css). The exports are kept in the repo as
+// the design source of truth, but nothing references them at runtime.
 const required = ["public/assets/alignly-bg.png"];
 const missing = required.filter((p) => !existsSync(p));
 

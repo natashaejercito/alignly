@@ -18,6 +18,21 @@ const steps = [
   },
 ];
 
+/**
+ * Decorative bubbles flanking the headline, revealed one at a time on load.
+ *
+ * `points` is the direction the bubble's tail faces — always inward, toward the
+ * headline, so it is the opposite of the side the bubble sits on.
+ *
+ * `top`/`left`/`right` only apply on wide screens. Below 1023px the bubbles drop
+ * out of the absolute layer and become a centered row above the hero, so these
+ * positions are ignored (see .bubble-field in index.css).
+ */
+const bubbles = [
+  { text: "New job posting", points: "right", top: "26%", left: "0%", delay: 0.5 },
+  { text: "Apply now", points: "left", top: "58%", right: "0%", delay: 1 },
+] as const;
+
 type Props = {
   onStart: () => void;
   onSeeSample: () => void;
@@ -27,6 +42,7 @@ export function LandingPage({ onStart, onSeeSample }: Props) {
   return (
     <div style={{ animation: "fadeUp .55s ease both" }}>
       <section
+        className="hero"
         style={{
           maxWidth: 920,
           margin: "0 auto",
@@ -38,6 +54,24 @@ export function LandingPage({ onStart, onSeeSample }: Props) {
           gap: "clamp(18px,2.4vw,26px)",
         }}
       >
+        {/* Decorative: the headline already states the value, so these are
+            hidden from screen readers rather than read as stray fragments. */}
+        <div className="bubble-field" aria-hidden="true">
+          {bubbles.map((b) => (
+            <span
+              key={b.text}
+              className={`bubble bubble--points-${b.points}`}
+              style={{
+                top: b.top,
+                ...("left" in b ? { left: b.left } : { right: b.right }),
+                animationDelay: `${b.delay}s`,
+              }}
+            >
+              {b.text}
+            </span>
+          ))}
+        </div>
+
         <span
           style={{
             fontSize: 12.5,
@@ -212,21 +246,18 @@ export function LandingPage({ onStart, onSeeSample }: Props) {
           Verdict in a few seconds
         </p>
         <div
+          className="verdict-peek"
           style={{
             background: "rgba(255,244,235,.82)",
             border: `1px solid ${hairline}`,
             borderRadius: 24,
             padding: "clamp(24px,3vw,34px)",
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            gap: "clamp(20px,3vw,34px)",
             boxShadow: "0 14px 44px rgba(61,21,52,.1)",
             backdropFilter: "blur(4px)",
           }}
         >
-          <div style={{ flex: "none", position: "relative", width: 132, height: 132 }}>
-            <svg width="132" height="132" viewBox="0 0 132 132" aria-hidden="true">
+          <div className="verdict-peek__ring">
+            <svg viewBox="0 0 132 132" aria-hidden="true">
               <circle
                 cx="66"
                 cy="66"
@@ -262,7 +293,7 @@ export function LandingPage({ onStart, onSeeSample }: Props) {
                 style={{
                   fontFamily: serif,
                   fontWeight: 600,
-                  fontSize: 38,
+                  fontSize: "clamp(28px,7vw,38px)",
                   lineHeight: 1,
                   color: ink,
                 }}
@@ -282,44 +313,37 @@ export function LandingPage({ onStart, onSeeSample }: Props) {
               </span>
             </div>
           </div>
-          <div
+
+          <span
+            className="verdict-peek__token"
             style={{
-              flex: "1 1 260px",
-              minWidth: 220,
-              display: "flex",
-              flexDirection: "column",
-              gap: 11,
+              fontSize: 13,
+              fontWeight: 700,
+              letterSpacing: ".03em",
+              color: "#2E5A3E",
+              background: "#E4EFE6",
+              border: "1px solid rgba(46,90,62,.45)",
+              borderRadius: 999,
+              padding: "6px 14px",
+              whiteSpace: "nowrap",
             }}
           >
-            <span
-              style={{
-                alignSelf: "flex-start",
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: ".03em",
-                color: "#2E5A3E",
-                background: "#E4EFE6",
-                border: "1px solid rgba(46,90,62,.45)",
-                borderRadius: 999,
-                padding: "6px 14px",
-              }}
-            >
-              Strong fit
-            </span>
-            <p
-              style={{
-                margin: 0,
-                fontFamily: serif,
-                fontSize: 22,
-                lineHeight: 1.28,
-                fontWeight: 500,
-                color: ink,
-              }}
-            >
-              “This role points straight at where you said you want to go — the kind of co-op
-              you’ll point back to and say it mattered.”
-            </p>
-          </div>
+            Strong fit
+          </span>
+          <p
+            className="verdict-peek__quote"
+            style={{
+              margin: 0,
+              fontFamily: serif,
+              fontSize: "clamp(18px,2.4vw,22px)",
+              lineHeight: 1.28,
+              fontWeight: 500,
+              color: ink,
+            }}
+          >
+            “This role points straight at where you said you want to go — the kind of co-op
+            you’ll point back to and say it mattered.”
+          </p>
         </div>
       </section>
     </div>
