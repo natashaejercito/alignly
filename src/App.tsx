@@ -61,16 +61,24 @@ export function App() {
         background: cream,
       }}
     >
-      {/* Warm backdrop standing in for the design's assets/alignly-bg.png */}
+      {/*
+        The Figma backdrop. The cream `background` on the wrapper above shows
+        through until this loads, and stays as the fallback if it 404s, so the
+        page is never bare white.
+      */}
       <div
         style={{
           position: "fixed",
           inset: 0,
           zIndex: 0,
-          background:
-            "radial-gradient(90% 70% at 18% 8%, #FBE3C6 0%, rgba(251,227,198,0) 60%), radial-gradient(80% 65% at 88% 22%, #F3DCE4 0%, rgba(243,220,228,0) 62%), radial-gradient(70% 60% at 50% 100%, #F6E0B6 0%, rgba(246,224,182,0) 60%), #FFF4EB",
+          backgroundImage: "url('/assets/alignly-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       />
+      {/* Light scrim toward the edges. Kept gentle — the artwork is already pale,
+          and the design's heavier version flattened it. */}
       <div
         style={{
           position: "fixed",
@@ -78,7 +86,7 @@ export function App() {
           zIndex: 0,
           pointerEvents: "none",
           background:
-            "radial-gradient(120% 90% at 50% 12%, rgba(255,244,235,0) 40%, rgba(255,244,235,.55) 100%)",
+            "radial-gradient(120% 90% at 50% 12%, rgba(255,244,235,0) 55%, rgba(255,244,235,.35) 100%)",
         }}
       />
 

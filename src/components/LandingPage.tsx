@@ -209,7 +209,7 @@ export function LandingPage({ onStart, onSeeSample }: Props) {
             margin: "0 0 18px",
           }}
         >
-          A verdict in five seconds
+          Verdict in a few seconds
         </p>
         <div
           style={{
