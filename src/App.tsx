@@ -141,7 +141,7 @@ export function App() {
               color: "rgba(61,21,52,.55)",
             }}
           >
-            Career alignment tool for students
+            Career alignment tool
           </span>
         </header>
 

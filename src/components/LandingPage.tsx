@@ -29,8 +29,8 @@ const steps = [
  * positions are ignored (see .bubble-field in index.css).
  */
 const bubbles = [
-  { text: "New job posting", points: "right", top: "26%", left: "0%", delay: 0.5 },
-  { text: "Apply now", points: "left", top: "58%", right: "0%", delay: 1 },
+  { text: "New job posting!!", points: "right", top: "26%", left: "0%", delay: 0.5 },
+  { text: "Should I apply?", points: "left", top: "58%", right: "0%", delay: 1 },
 ] as const;
 
 type Props = {
